@@ -1,15 +1,14 @@
+CXX = g++
+CXXFLAGS = -O2 -std=c++17 -stdlib=libc++ -I/opt/homebrew/include
+LDFLAGS = -L/opt/homebrew/lib -lQuantLib
 
-.PHONY: all build test clean
+SOURCES = main.cpp constantblackscholesprocess.cpp
+HEADERS = constantblackscholesprocess.hpp mceuropeanengine.hpp mc_discr_arith_av_strike.hpp mcbarrierengine.hpp
 
-all: build test
+all: montecarlo
 
-build: main
-
-test: main
-	./main
-
-main: *.hpp *.cpp
-	g++ *.cpp `quantlib-config --cflags` -g0 -O3 `quantlib-config --libs` -o main
+montecarlo: $(SOURCES) $(HEADERS)
+	$(CXX) $(CXXFLAGS) -o montecarlo $(SOURCES) $(LDFLAGS)
 
 clean:
-	rm -f main
+	rm -f montecarlo
